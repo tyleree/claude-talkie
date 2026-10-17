@@ -226,3 +226,7 @@ then acknowledges the clip and reports progress back to the stick's screen.
   app's Hardware Buddy BLE protocol, or a Claude Code channel with permission
   relay for terminal sessions).
 - Show background agents' progress on the stick between clips.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
