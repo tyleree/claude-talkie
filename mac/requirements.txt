@@ -1,0 +1,5 @@
+pyserial>=3.5
+numpy>=1.24
+tomli>=2.0; python_version < "3.11"
+# Optional alternative speech-to-text engine (Apple Silicon only):
+#   mlx-whisper

@@ -1,0 +1,10 @@
+# build output
+firmware/.pio/
+# per-user pairing key, generated on first build: never commit it
+firmware/include/talkie_secret.h
+
+# Mac app
+mac/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/

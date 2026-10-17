@@ -1,0 +1,78 @@
+# Claude Talkie settings. Lives at ~/.claude-talkie/config.toml.
+# Every line is optional: delete anything you don't need to change.
+
+[receiver]
+# "auto" finds the receiver dongle among your USB serial ports.
+port = "auto"
+
+[transcribe]
+# auto | whisper-cpp | mlx | command
+backend = "auto"
+# whisper.cpp model (setup.sh downloads it). Smaller/faster: ggml-base.en.bin,
+# ggml-small.en.bin. Get others from huggingface.co/ggerganov/whisper.cpp
+model = "~/.claude-talkie/models/ggml-large-v3-turbo-q5_0.bin"
+# For backend = "mlx" (pip install mlx-whisper in mac/.venv):
+mlx_model = "mlx-community/whisper-large-v3-turbo"
+language = "en"
+# Names and jargon you say often. Whisper spells them right more often.
+prompt = "Claude, Claude Code, git, GitHub, pull request, commit, npm, Python, TypeScript."
+threads = 4
+# For backend = "command": any program that prints the transcript of {wav}.
+# command = ["my-stt", "--input", "{wav}"]
+
+[audio]
+# Clips with no detectable speech are dropped instead of transcribed (Whisper
+# tends to invent words for silence). Lower the threshold (e.g. -55) if quiet
+# speech gets rejected; set speech_gate = false to disable.
+speech_gate = true
+speech_threshold_db = -48.0
+min_seconds = 0.4
+# Keep the last N recordings in ~/.claude-talkie/clips for debugging (0 = none).
+keep_clips = 20
+
+[route]
+# Path to Claude Code if it isn't on PATH (e.g. when run from launchd).
+claude_bin = "claude"
+# Text added in front of every transcript, e.g. "(dictated, may contain typos) "
+prompt_prefix = ""
+
+# --- Button A: the agent you're looking at ---
+# focused: paste into the frontmost app if it's in focused_apps, press Return
+# tmux:    type into the tmux pane running claude
+# last:    continue the last agent Talkie started (claude --resume <id> --bg)
+current_mode = "focused"
+focused_submit = true        # false = paste only, you press Return
+# What to do when the front app isn't a terminal: clipboard | last | new | none
+focused_fallback = "clipboard"
+restore_clipboard = true
+# Bundle IDs that may receive pastes (find one: osascript -e 'id of app "Ghostty"')
+focused_apps = [
+  "com.mitchellh.ghostty",
+  "com.apple.Terminal",
+  "com.googlecode.iterm2",
+  "dev.warp.Warp-Stable",
+  "net.kovidgoyal.kitty",
+  "org.alacritty",
+  "com.github.wez.wezterm",
+  "com.microsoft.VSCode",
+  "com.todesktop.230313mzl4w4u92",   # Cursor
+  "dev.zed.Zed",
+  "com.anthropic.claudefordesktop",  # Claude desktop app
+]
+# tmux target like "work:1.0"; empty = the pane running claude (active one first)
+tmux_target = ""
+
+# --- Button B: a new background agent (claude --bg) ---
+# Folder new agents work in. Run `claude` there once to trust it.
+new_cwd = "~"
+# Session name; empty lets Claude name it. Placeholders: {time} {words}
+new_name = ""
+# e.g. "acceptEdits" or "plan"; empty = your Claude Code settings
+new_permission_mode = ""
+new_model = ""
+new_agent = ""
+extra_args = []
+
+[feedback]
+notifications = true   # macOS notification for every result
+agent_summary = true   # add "2 working, 1 needs you" to notifications
